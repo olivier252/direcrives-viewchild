@@ -1,0 +1,85 @@
+<h3 class="mt-4 mb-4">ngAfterViewInit()</h3>
+
+<p>Se déclenche après avoir initialisé la vue du composant et l’une de ses vues enfants. Il s’agit d’un life cycle hook
+    utile pour les plugins en dehors de l’écosystème Angular 2.</p>
+
+<p>L’implémentation d’interfaces est optionnelle car le langage JavaScript n’en possède pas. D'autre part, Angular ne
+    peut pas
+    voir les interfaces TypeScript à l’exécution car elles disparaissent du JavaScript transpilé. Mais la bonne
+    pratique est d’ajouter des interfaces aux classes de directive TypeScript afin de bénéficier d’un typage et d’un
+    outil
+    d’édition puissants.</p><br>
+<p>- <code>ngAfterViewInit()</code> est exécuté après que Angular initialise les vues du composant et les vues fils. La
+    vue fils est
+    la
+    vue dans laquelle se trouve une directive.
+
+<p>- <code>ngAfterViewInit()</code> n’est exécuté qu’une seule fois après le premier appel
+    <code>de ngAfterContentChecked()</code> life cycle hook.
+</p>
+<p>- Après life cycle hook <code>ngAfterViewInit()</code>, la fonction
+    <code>ngAfterViewChecked()</code> est appelée. <code>ngAfterContentChecked()</code> répond après que Angular ait
+    vérifié le contenu projeté
+    dans la directive/composant et <code>ngAfterViewChecked()</code> répond après que Angular ait vérifié les vues du
+    composant et les vues fils.
+</p>
+
+<img src="assets/img/cycle.png">
+
+<p> <code>ngAfterViewInit()</code> peut être utilisé avec les propriétés <code>@ViewChild()</code> et
+    <code>@ViewChildren()</code>.<br>
+    <code>ngAfterContentInit() </code>peut être utilisé avec les propriétés
+    <code>@ContentChild et @ContentChildren</code>.<br>
+    Angular possède un life cycle hook supplémentaire, <code>ngOnChanges()</code> qui répond lorsque Angular définit ou
+    réinitialise les propriétés <code>@Input()</code> liées aux données.
+</p>
+
+<hr>
+
+<h4 class="mt-4 mb-4">Exemple où <code>ngAfterViewInit()</code> accède à <code>@ViewChild()</code>
+    et<code>@ViewChildren()</code>
+
+    <h4 class="mt-4 mb-4">ViewContainerRef</h4>
+
+    <p>Est utilisé pour ajouter un composant ou un template programmatiquement. Il faut déterminer où placer le nouvel
+        élément, c'est le rôle de ViewContainerRef</p>
+
+    <p>Dans cet exercice nous utilisons <code>ViewContainerRef</code> qui est une classe abstraite</p>
+    <p><code>ViewContainerRef</code> représente un container où une ou plusieurs vues sont attachées au composant.</p>
+    <p>On utilise une référecnce en créant une variable de référence dans le tempmlate du composant parent. Ensuite on utilise  ViewChild() comme requête
+        dans le composant pour l'obtenir
+    </p>
+
+    <p>Il peut contenir :</p>
+
+    <ul class="list-group">
+        <li class="list-group-item">des vues hôtes créées en instanciant un composant avec la méthode
+            <code>createComponent()</code>
+        </li>
+        <li class="list-group-item">des vues intégrées créées en instanciant une TemplateRef avec la méthode
+            <code>createEmbeddedView()</code>
+        </li>
+    </ul>
+
+    <h5 class="mt-4 mb-4">Un mot à propos de <code>ViewChildren</code> (cf <code>ngAfterViewInit()</code>).</h5>
+
+    <p><code>ViewChildren()</code> est utile pour obtenir la liste des éléments ou des directives du DOM. Chaque fois
+        qu'un
+        élément enfant est ajouté, supprimé ou déplacé, la liste des requêtes est mise à jour. Les observables de la
+        liste
+        de requête émettront une nouvelle valeur. Les requêtes de vues sont définies avant l'appel du callback
+        <code>ngAfterViewInit()</code>.
+    </p>
+
+    <p>Comme nous savons que <code>ngAfterViewInit()</code> répond lorsque la vue du composant et sa vue enfant sont
+        initialisés, nous
+        sommes en train de lire le template msgTemp et de les intégrer dans la directive cpMsg.</p>
+
+    <p>Affichage directive</p>
+
+    <div appViewChild>Div bleue</div>
+    <!-- élément du template qui contient la variable de référence -->
+
+    <ng-template>Ce message s'affiche à chaque fois qu'un élément du template possède la directive</ng-template>
+    <p #toto></p>
+    <p aviDir></p>

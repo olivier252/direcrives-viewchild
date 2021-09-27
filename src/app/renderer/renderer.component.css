@@ -1,0 +1,17 @@
+.accordeons > div {
+    height: 100%;
+    
+    overflow: hidden;
+    border: solid 1px;
+    margin-top: -1px;
+    padding: 0 1rem;
+    box-sizing: content-box;
+  }
+  
+  h2 {
+    cursor: pointer;
+  }
+  
+  .hidden {
+    max-height: 0px!important;
+  }

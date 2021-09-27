@@ -1,0 +1,25 @@
+<h1 class="mb-5">Tuto @ViewChild</h1>
+<p>Un élement du DOM peut être accédé grâce à une variable locale (ici <code>#accessId</code>) et en utilisant le
+    décorateur <code>@ViewChild</code>.</p>
+<p>Ici par exemple, nous accédons à l'élément <code>input</code> ci dessus :</p>
+
+<input class="mb-4" #accessId placeholder="indiquez votre prénom">
+
+<p>Code correspondant côté template :</p>
+<figure>
+    <img class="mt-1" src="assets/img/view1.png" alt="">
+    <figcaption><code>#accessId</code> est une variable de référence locale</figcaption>
+</figure>
+
+<p>Code correspondant côté typescript :</p>
+<figure>
+    <img class="mt-1" src="assets/img/view2.png" alt="">
+    <figcaption><code>#accessId</code> est une variable de référence locale</figcaption>
+</figure>
+
+<h2 class="mb-5 mt-5">Usage de @ViewChild avec des composants enfants</h2>
+
+<p>Mais nous pouvons accéder facilement à un composant enfant et aux variables d'instance. Dans l’exemple suivant,
+    <code>howAreYou()</code> est une méthode d’un composant enfant.
+</p>
+

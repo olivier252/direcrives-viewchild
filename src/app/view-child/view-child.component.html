@@ -1,0 +1,61 @@
+<h3 class="mb-4">ViewChild et ViewChildren</h3>
+
+<h4 class="mb-3">Le décorateur ViewChild</h4>
+<p>On utilise le décorateur viewChild pour lier le composant à l'élément HTML. L'élément devient ainsi un attribut du
+    composant.</p>
+<p>Lorque l'on exécute <code>ViewChild()</code> dans Angular, celui-ci retournera le 1er élément qui possède la variable
+    de référence ou la directive côté template. Cette variable ou cette directive correspond au sélecteur passé en
+    paramètre dans le décorateur côté typeScript.</p><br>
+
+<p>Ce selecteur référencera donc une directive ou bien un template.</p>
+<p><code>ViewChild()</code> est utile quand on a besoin de passer un traitement sur un élément du template tout en étant
+    hors du template. Ex : focus sur champ dès la naissance du composant. Il est en effet capable de gérer les
+    changements de référence dynamiques</p>
+
+<p>Il faudra pour cela agir hors du template, il s'agit des requêtes de vue (view queries)</p>
+
+<h4 class="mt-3 mb-3">ElementRef</h4>
+<p>Le framework Angular fournit ses propres méthodes pour sélectionner un élément HTML à partir d'un composant ou d'une
+    vue, sans devoir
+    utiliser les méthodes du DOM JavaScript. Bien que le code de l'élément HTML dans Angular n'ait pas changé avec les
+    années, les instructions pour sélectionner un élément ont quant à elles évolué au fur et à mesure des versions.</p>
+<br>
+
+<p>Pour sélectionner un élément HTML, vous devez lui donner une variable qui permettra de le reconnaître. Cette variable
+    se définit en tant qu'attribut de l'élément avec le caractère "#" suivi du nom de la variable. C'est une variable de
+    référence.</p>
+<p>- On déclare un attribut <code>loginInputRef</code> avec <code>ViewChild</code></p>
+<p>- On passe un selecteur en paramètre : la variable locale du template : le décorateur dit à angular qu'il doit
+    requêter la vue pour y trouver l'élément (de typeHTMLInputElement) avec la variable locale
+</p>
+<p>- L'attribut sera initialisé avc cet élément de type ElementRef T qui n'a qu'un seul attribut
+    <code>nativeElement</code> de type T qui est un élément du DOM sous-jacent
+</p>
+
+<p>On remarque l'usage de la méthode <code>ngAfterViewInit()</code>. Elle est appelée dès que la vue est créée, ainsi on
+    est sûrs que l'élément attendu sera présent.</p>
+
+<hr>
+
+<h5>Fonctionnement sans la directive <code>appViewChild</code> avec variable locale et décorateur <code>ViewChild</code>
+</h5><br>
+<!-- Présence de la variable de référence #loginInput -->
+<input type="text" name="login" #loginInput [(ngModel)]="credentials.login" required><br>
+<hr>
+<h5>Fonctionnement avec la directive <code>appViewChild</code></h5>
+<div appViewChild>Salut, je suis une div toute bleue !!</div>
+
+
+<h4 class="mt-3 mb-3">ViewChildren</h4>
+
+<p><code>ViewChildren</code> est utile pour obtenir la liste des éléments ou des directives du DOM. Chaque fois qu'un
+    élément enfant est ajouté, supprimé ou déplacé, la liste des requêtes est mise à jour. Les observables de la liste
+    de requête émettront une nouvelle valeur. Les requêtes de vues sont définies avant l'appel du callback
+    <code>ngAfterViewInit</code>.
+</p>
+
+<h4 class="mt-4 mb-4">Exemple avec <code>ViewChild()</code> et les directives</h4>
+
+<input #accessId placeholder="What's your name ?">
+
+<p #paragrapheElement>Un paragraphe test</p>

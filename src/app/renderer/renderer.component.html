@@ -1,0 +1,98 @@
+<div class="container">
+    <h1 class="mb-4">La manipulation du DOM avec Angular Renderer2</h1>
+    <p>Un mot sur <code>Renderer2</code> Renderer2</p><br>
+    <p><code>Renderer2</code> d’Angular est utile pour modifier et manipuler les éléments du DOM. Les appels faits avec
+        <code>document.querySelector()</code> ou autres fonctions héritées de l’objet <code>document</code> ou
+        <code>window</code> du navigateur sont à proscrire.
+    </p><br>
+
+    <p>En effet, utiliser les méthodes Native Javascript pour manipuler le DOM augmentent les risques d’attaque XSS en
+        créant des points d’entrée qui permettont à des hackers de lancer des attaques XSS qui pour rappel, sont un type
+        de
+        faille de sécurité des sites web permettant d’injecter du contenu dans une page.</p><br>
+
+    <p>Un autre problème peut apparaitre lors de l’utilisation de l’application dans des environnements qui peuvent être
+        rendus sur diverses plates-formes et qui n’ont pas d’accès DOM direct, comme les serveurs, les travailleurs Web
+        ou
+        les mobiles natifs.</p><br>
+
+    <h2 class="mb-5">Renderer2 : la solution pour manipuler le DOM</h2>
+
+    <p>En utilisant la classe <code>Renderer2</code>, il est possible d'ajouter et supprimer des classes CSS, modifier
+        des
+        styles et des attributs HTML, ajouter ou supprimer un élément enfant dans un élément parent, ajouter un
+        commentaire
+        HTML à n’importe quel élément parent du DOM, ajouter des EventsListeners...etc, etc</p><br>
+
+    <h2 class="mb-4">Cas d'utilisation</h2>
+
+    <p>D'abord on importe <code>Renderer2</code> dans notre constructeur, il d'agit d'un service</p>
+
+    <figure>
+        <img class="mb-5" src="/assets/img/render1.png" alt="">
+    </figure>
+
+    <p>Maintenant le Renderer est utilisable avec notre logique pour manipuler le DOM. Mais avant cela il faut d’abord
+        récupérer des éléments pour pouvoir les modifier : c'est là qu'intervient le décorateur ViewChildren().</p><br>
+    <p><code>ViewChildren()</code> est utile pour obtenir la liste des éléments ou des directives du DOM. Chaque fois
+        qu'un élément enfant est ajouté, supprimé ou déplacé, la liste des requêtes est mise à jour. Les observables de
+        la liste de requête émettront une nouvelle valeur. Les requêtes de vues sont définies avant l'appel du callback
+        <code>ngAfterViewInit()</code>.
+    </p>
+
+    <p>Ce décorateur va observer le DOM et rechercher les éléments possédant la référence « accordeon ». Il retournera
+        un tableau avec les résultats de ce qui aura été trouvé. Cela est l'équivalent de
+        <code>document.querySelectorAll()</code> en Javascript natif.
+    </p>
+
+    <figure>
+        <img class="mb-5" src="/assets/img/render2.png" alt="">
+        <figcaption>Nous définissons une propriété ou attribut "accordeons" qui est une liste d'éléments de type
+            <code>HTMLElement</code>, et nous obtenons une référence de cette liste grâce à l'objet
+            <code>ElementRef</code>
+        </figcaption>
+    </figure>
+
+    <p>Il ne reste plus qu'à concevoir le template qui comporte les accordéons qui seront référencés grâce à la variable
+        locale <code>#accordeon</code></p>
+
+    <div class="accordeons">
+        <div>
+            <h2 (click)="toggle($event)">Titre 1</h2>
+            <div #accordeon class="hidden">
+                <p>Voici le paragraphe 1</p>
+            </div>
+        </div>
+
+        <div>
+            <h2 (click)="toggle($event)">Titre 2</h2>
+            <div #accordeon class="hidden">
+                <p>Voici le paragraphe 2</p>
+            </div>
+        </div>
+
+        <div>
+            <h2 (click)="toggle($event)">Titre 3</h2>
+            <div #accordeon class="hidden">
+                <p>Voici le paragraphe 3</p>
+            </div>
+        </div>
+
+        <div>
+            <h2 (click)="toggle($event)">Titre 4</h2>
+            <div #accordeon class="hidden">
+                <p>Voici le paragraphe 4</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p>On utilise donc le Renderer de Angular seulement pour ajouter et retirer des Class aux éléments HTML. Maintenant, il
+    nous reste plus qu’a créer une méthode pour récupérer l’event click et modifier les classes des éléments HTML du
+    DOM.</p>
+
+    <ul class="list-group">
+        <li class="list-group-item">- Etape 1 : On ferme tous les accordéons grâce à la classe <code>hidden</code></li>
+        <li class="list-group-item">- Etape 2 : On identifie l’élément sur lequel on a cliqué pour récupérer son élément voisin (frère) qui suit avec la méthode <code>nextSibling()</code> du Renderer2 de Angular.</li>
+        <li class="list-group-item">- Etape 3 : Et finalement on lui retire la class « hidden » pour que l’affichage fonctionne.</li>
+      </ul>
